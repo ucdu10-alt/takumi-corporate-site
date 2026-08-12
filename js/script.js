@@ -54,12 +54,41 @@
     revealEls.forEach(el => el.classList.add('in'));
   }
 
-  // Contact form (static demo — no backend wired up)
+  // Contact form (submits via Web3Forms — no server of our own required)
   const contactForm = document.getElementById('contactForm');
+  const formStatus = document.getElementById('formStatus');
   if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      alert('送信フォームのバックエンドは未接続です。実際にご利用の際はメール送信処理（フォーム送信サービスやサーバーサイド実装）を設定してください。');
+      const submitBtn = contactForm.querySelector('.submit-btn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = '送信中…';
+      formStatus.className = 'form-status show';
+      formStatus.textContent = '';
+
+      try {
+        const formData = new FormData(contactForm);
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: formData,
+        });
+        const result = await response.json();
+
+        if (result.success) {
+          formStatus.className = 'form-status show success';
+          formStatus.textContent = 'お問い合わせを受け付けました。担当より折り返しご連絡いたします。';
+          contactForm.reset();
+        } else {
+          throw new Error(result.message || '送信に失敗しました');
+        }
+      } catch (error) {
+        formStatus.className = 'form-status show error';
+        formStatus.textContent = '送信に失敗しました。恐れ入りますがお電話にてご連絡いただくか、時間をおいて再度お試しください。';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = '送信する';
+      }
     });
   }
 

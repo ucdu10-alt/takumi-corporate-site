@@ -486,6 +486,11 @@ dd a:hover{ color: var(--gold); }
   letter-spacing:.1em; cursor:pointer; transition: background .3s var(--ease);
 }
 .submit-btn:hover{ background: var(--wine-light); }
+.submit-btn:disabled{ opacity:.6; cursor:not-allowed; }
+.form-status{ display:none; margin-top:18px; font-size:.86rem; line-height:1.6; }
+.form-status.show{ display:block; }
+.form-status.success{ color: var(--gold); }
+.form-status.error{ color: var(--wine-light); }
 
 /* ---------- Footer ---------- */
 .site-footer{ background: #0f0b0a; position:relative; }
