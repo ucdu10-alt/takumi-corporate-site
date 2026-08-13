@@ -129,7 +129,7 @@ ul{ margin:0; padding:0; list-style:none; }
 /* ---------- Hero (home) — sticky "curtain" hero: the next section
    scrolls up over it while it stays pinned, like megui-restaurant.com ---------- */
 .hero{
-  position: sticky; top: 0; z-index: 0; min-height: 92svh;
+  position: relative; min-height: 92svh;
   display:flex; align-items:center; justify-content:center;
   overflow:hidden;
   background:
