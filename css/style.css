@@ -74,12 +74,21 @@ ul{ margin:0; padding:0; list-style:none; }
   border-bottom: 1px solid transparent;
   background: rgba(20,16,15,0.55);
 }
+/* backdrop-filter lives on a ::before layer, not on .site-header itself —
+   a filter/backdrop-filter on .site-header would create a new containing
+   block for its position:fixed descendants (the mobile .main-nav panel),
+   collapsing it down to the header's own height instead of the full viewport */
+.site-header::before{
+  content:''; position:absolute; inset:0; z-index:-1;
+  opacity:0; transition: opacity .5s var(--ease);
+  backdrop-filter: blur(10px);
+}
 .site-header.scrolled{
   background: rgba(20,16,15,0.94);
-  backdrop-filter: blur(10px);
   padding: 12px 0;
   border-color: var(--gold-line);
 }
+.site-header.scrolled::before{ opacity:1; }
 .header-inner{
   max-width: 1280px; margin:0 auto; padding: 0 6vw;
   display:flex; align-items:center; justify-content:space-between;
